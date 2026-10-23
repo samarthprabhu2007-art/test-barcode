@@ -29,6 +29,7 @@ const state = {
   running: false,
   stopRequested: false,
   handlerAttached: false,
+  scanFinalizing: false,
   candidate: null,
   scannedValues: new Set(),
   entries: [],
@@ -119,7 +120,7 @@ function addResult(value, source) {
 }
 
 function onDetected(result) {
-  if (!state.running) return;
+  if (!state.running || state.scanFinalizing) return;
   const code = result?.codeResult?.code;
   const format = result?.codeResult?.format;
   if (!code || format !== "code_128") return;
@@ -135,6 +136,12 @@ function onDetected(result) {
   if (state.candidate.hits >= 2) {
     addResult(code, "camera");
     state.candidate = null;
+    state.scanFinalizing = true;
+    void stopCamera({ updateMessage: false }).then(() => {
+      setStatus("Scan complete. Press Scan again to start the camera.", "success");
+      window.alert(`Code 128 detected:\n\n${code}`);
+      state.scanFinalizing = false;
+    });
   } else {
     setStatus("Barcode seen; hold it steady for one more read to confirm.", "scanning");
   }
@@ -296,7 +303,10 @@ function scanAgain() {
   state.scannedValues.clear();
   state.candidate = null;
   if (state.running) setStatus("Ready for a new scan. Hold a barcode steady in the camera view.", "scanning");
-  else setStatus("Ready. Start the camera to scan a new barcode.", "idle");
+  else {
+    setStatus("Starting the camera for another scan...", "scanning");
+    startCamera();
+  }
 }
 
 function clearResults() {
