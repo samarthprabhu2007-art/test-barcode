@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#080d1c" />
+    <title>Code 128 Scanner Test</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="page-header">
+        <p class="eyebrow">LOCAL CAMERA SCANNER</p>
+        <h1>Code 128 scanner test</h1>
+        <p class="intro">Scan your card locally. Camera frames stay in this browser; nothing is uploaded.</p>
+      </header>
+
+      <section class="scanner-card" aria-labelledby="scanner-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LIVE SCAN</p>
+            <h2 id="scanner-heading">Point the rear camera at the barcode</h2>
+          </div>
+          <span id="formatBadge" class="format-badge">CODE 128 ONLY</span>
+        </div>
+
+        <div id="scanner" class="scanner-viewport" aria-label="Camera barcode preview">
+          <div class="camera-placeholder" id="cameraPlaceholder">
+            <span class="camera-icon" aria-hidden="true">▣</span>
+            <p>Camera preview appears here</p>
+            <small>Use a well-lit area and keep the barcode flat.</small>
+          </div>
+        </div>
+
+        <div class="status-row">
+          <span id="statusDot" class="status-dot" aria-hidden="true"></span>
+          <p id="statusText" role="status" aria-live="polite">Camera is off. Press Start camera when ready.</p>
+        </div>
+
+        <div class="action-row">
+          <button id="startButton" class="button button-primary" type="button">Start camera</button>
+          <button id="stopButton" class="button button-secondary" type="button" disabled>Stop</button>
+          <button id="scanAgainButton" class="button button-secondary" type="button">Scan again</button>
+          <button id="clearButton" class="button button-quiet" type="button">Clear results</button>
+        </div>
+
+        <details class="settings-panel">
+          <summary>Scanner settings</summary>
+          <div class="settings-grid">
+            <label>
+              Resolution (width)
+              <select id="resolutionSelect">
+                <option value="640">640 px</option>
+                <option value="1280">1280 px</option>
+                <option value="1600" selected>1600 px</option>
+                <option value="1920">1920 px</option>
+              </select>
+            </label>
+            <label>
+              Patch size
+              <select id="patchSizeSelect">
+                <option value="small">Small</option>
+                <option value="medium" selected>Medium</option>
+                <option value="large">Large</option>
+                <option value="x-large">X-large</option>
+              </select>
+            </label>
+            <label>
+              Camera
+              <select id="cameraSelect" aria-label="Camera">
+                <option value="">Rear camera (automatic)</option>
+              </select>
+            </label>
+            <label class="check-setting">
+              <input id="halfSampleToggle" type="checkbox" checked />
+              Half-sample (faster)
+            </label>
+            <label class="check-setting">
+              <input id="locateToggle" type="checkbox" checked />
+              Locate barcode in frame
+            </label>
+            <label class="check-setting">
+              <input id="torchToggle" type="checkbox" disabled />
+              Torch / flash (if supported)
+            </label>
+          </div>
+          <p class="settings-note">Defaults match the supplied Quagga2 settings. Higher resolution may increase processing and battery use.</p>
+        </details>
+      </section>
+
+      <section class="results-card" aria-labelledby="results-heading">
+        <div class="section-heading results-heading">
+          <div>
+            <p class="eyebrow">CAPTURED VALUES</p>
+            <h2 id="results-heading">Scans <span id="resultCount" class="count-badge">0</span></h2>
+          </div>
+          <p class="results-help">Each value must be decoded twice before it is added. The same value is added once per scan session.</p>
+        </div>
+        <div id="resultsList" class="results-list" aria-live="polite">
+          <p class="empty-state">No barcodes scanned yet.</p>
+        </div>
+
+        <div class="manual-entry">
+          <label for="manualValue">Manual Code 128 entry</label>
+          <div class="manual-row">
+            <input id="manualValue" type="text" autocomplete="off" placeholder="Type the value printed under the barcode" />
+            <button id="addManualButton" class="button button-secondary" type="button">Add value</button>
+          </div>
+        </div>
+
+        <div class="image-entry">
+          <label for="imageInput">Or test a barcode photo</label>
+          <input id="imageInput" type="file" accept="image/*" />
+          <p id="imageStatus" class="subtle-text" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <footer class="privacy-note">Testing only. A decoded barcode is not proof of membership. Membership must still be checked by the application server.</footer>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

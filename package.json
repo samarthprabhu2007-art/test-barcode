@@ -1,0 +1,17 @@
+{
+  "name": "rvce-code128-scanner-test",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@ericblade/quagga2": "1.12.1"
+  },
+  "devDependencies": {
+    "vite": "^6.4.1"
+  }
+}
