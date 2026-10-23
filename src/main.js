@@ -119,11 +119,27 @@ function addResult(value, source) {
   return true;
 }
 
+function isRvceIdFormat(value) {
+  return /^RVCE\d{2}[A-Z]{3}\d{3}$/i.test(value.trim());
+}
+
 function onDetected(result) {
   if (!state.running || state.scanFinalizing) return;
   const code = result?.codeResult?.code;
   const format = result?.codeResult?.format;
   if (!code || format !== "code_128") return;
+
+  if (isRvceIdFormat(code)) {
+    state.candidate = null;
+    addResult(code, "camera");
+    state.scanFinalizing = true;
+    void stopCamera({ updateMessage: false }).then(() => {
+      setStatus("Scan complete. Press Scan again to start the camera.", "success");
+      window.alert(`RVCE ID barcode detected:\n\n${code}`);
+      state.scanFinalizing = false;
+    });
+    return;
+  }
 
   const now = Date.now();
   if (state.candidate?.value === code && now - state.candidate.lastSeen < 1800) {
