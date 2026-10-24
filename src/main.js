@@ -361,7 +361,7 @@ async function stopCamera({ updateMessage = true } = {}) {
   cleanupParallelDecoders();
 
   try {
-    Quagga.stop();
+    await Quagga.stop();
   } catch {
     // stop() may be called after failed initialization; releasing below is still useful.
   }
