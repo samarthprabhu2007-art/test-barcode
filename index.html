@@ -12,6 +12,15 @@
         <p class="eyebrow">LOCAL CAMERA SCANNER</p>
         <h1>Code 128 scanner test</h1>
         <p class="intro">Scan your card locally. Camera frames stay in this browser; nothing is uploaded.</p>
+        <div class="processing-mode" aria-label="Scanner processing mode">
+          <div>
+            <span class="processing-label">PROCESSING MODE</span>
+            <strong id="processingModeValue">Parallel - all patch sizes</strong>
+            <p id="processingModeHelp">Trying small, medium, large, and extra-large patches at 1600 px.</p>
+          </div>
+          <button id="processingModeButton" class="button button-secondary" type="button" aria-pressed="true">Switch to single</button>
+        </div>
+        <p class="mode-note">Parallel is on by default. If the preview or phone feels slow, switch to Single.</p>
       </header>
 
       <section class="scanner-card" aria-labelledby="scanner-heading">
@@ -30,6 +39,7 @@
             <small>Use a well-lit area and keep the barcode flat.</small>
           </div>
         </div>
+        <div id="decoderPool" class="decoder-pool" aria-hidden="true"></div>
 
         <div class="status-row">
           <span id="statusDot" class="status-dot" aria-hidden="true"></span>
@@ -93,7 +103,7 @@
             <p class="eyebrow">CAPTURED VALUES</p>
             <h2 id="results-heading">Scans <span id="resultCount" class="count-badge">0</span></h2>
           </div>
-          <p class="results-help">Each value must be decoded twice before it is added. The same value is added once per scan session.</p>
+          <p class="results-help">RVCE-shaped IDs are accepted on the first read. Other codes must repeat on separate frames.</p>
         </div>
         <div id="resultsList" class="results-list" aria-live="polite">
           <p class="empty-state">No barcodes scanned yet.</p>
