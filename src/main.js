@@ -209,7 +209,7 @@ function scannerConfig() {
       },
     },
     locate: elements.locate.checked,
-    frequency: state.processingMode === "parallel" ? 1 : 10,
+    frequency: state.processingMode === "parallel" ? 1 : 5,
     decoder: {
       readers: ["code_128_reader"],
       multiple: false,
